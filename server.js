@@ -1,6 +1,7 @@
 const express = require('express');
 const apiRoute = require('./routes/api')
 const authRoute = require('./routes/auth')
+const loggedIn = require('./middleware/auth_middleware')
 const migrateRoute = require('./routes/migrate')
 require('dotenv').config();
 
@@ -12,7 +13,7 @@ const port = process.env.PORT;
 app.use(express.json());
 
 // Use routes
-app.use('/api', apiRoute);
+app.use('/api', loggedIn, apiRoute);
 app.use('/auth', authRoute);
 app.use('/migrate', migrateRoute);
 
@@ -25,7 +26,7 @@ app.get("/", (req, res) => {
 
 app.use((req, res, next) => {
     res.status(404).json({
-        "statusCode":404,
+        "statusCode": 404,
         "message": "Endpoint not found"
     });
 })
