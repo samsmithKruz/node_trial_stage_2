@@ -55,8 +55,25 @@ router.post("/register", async (req, res) => {
     ])
         .then(async () => {
             const userid = await (await db.query(`SELECT userId as userid from users where email=$1`, [email])).rows[0]
+
+
+            await db.query(`
+                INSERT INTO organisation(orgid,name,owner,description) 
+                values($1,$2,$1,$3)`, [
+                userid.userid,
+                `${firstName}'s Organisation`,
+                ""
+            ]);
+            await db.query(`
+                INSERT INTO organisation_user(orgid,userid) 
+                values($1,$1)`, [
+                userid.userid
+            ]);
+
+
+
             const token = await jwt.generateToken({
-                userId: userid
+                userId: userid.userid
             })
 
             return res.status(201).json({
