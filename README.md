@@ -84,7 +84,7 @@ This project is a Node.js API built with Express and PostgreSQL. It provides end
 - **GET /api/users/:userId**: Get user by userId
     - Response: 200 OK, 404 Not Found
 
-- **POST /api/users**: Create a new user
+- **POST /auth/register**: Create a new user
     - Request body:
       ```json
       {
